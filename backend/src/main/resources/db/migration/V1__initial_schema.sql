@@ -1,7 +1,0 @@
-CREATE TABLE parental_benefit (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
-    gross_salary DECIMAL(10, 2) NOT NULL,
-    baby_birth_date DATE NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
-);

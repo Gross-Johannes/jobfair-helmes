@@ -16,6 +16,6 @@ main {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 2rem;
+  gap: 1.25rem;
 }
 </style>

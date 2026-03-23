@@ -46,26 +46,24 @@ async function saveCalculation() {
   <Card>
     <div class="header">
       <h2>Calculation result</h2>
-      <button @click="router.push('/')">Back</button>
+      <button class="back-btn" @click="router.push('/')">Back</button>
     </div>
 
     <p class="message">{{ result.message }}</p>
 
     <div class="summary-grid">
-      <article>
-        <h3>Monthly eligible salary</h3>
-        <p>{{ monthlyEligibleSalary }} EUR</p>
-      </article>
-
-      <article>
-        <h3>Daily rate</h3>
-        <p>{{ dailyRate }} EUR</p>
-      </article>
-
-      <article>
-        <h3>Total payment</h3>
-        <p>{{ totalPayment }} EUR</p>
-      </article>
+      <div class="tile">
+        <span class="tile-label">Monthly eligible salary</span>
+        <span class="tile-value">{{ monthlyEligibleSalary }} <span class="tile-unit">EUR</span></span>
+      </div>
+      <div class="tile">
+        <span class="tile-label">Daily rate</span>
+        <span class="tile-value">{{ dailyRate }} <span class="tile-unit">EUR</span></span>
+      </div>
+      <div class="tile tile--total">
+        <span class="tile-label">Total payment</span>
+        <span class="tile-value">{{ totalPayment }} <span class="tile-unit">EUR</span></span>
+      </div>
     </div>
 
     <h3 class="breakdown-title">Monthly breakdown</h3>
@@ -89,87 +87,209 @@ async function saveCalculation() {
       </table>
     </div>
 
-    <p>{{ errorMessage }}</p>
-    <div v-if="responseId" class="message">
-      <p>Benefit saved successfully!</p>
-      <p>
-        Your benefit ID: <strong>{{ responseId }}</strong>
-      </p>
+    <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
+    <div v-if="responseId" class="save-success">
+      <p class="save-success-title">Saved successfully</p>
+      <p class="save-success-id">Your ID: <strong>{{ responseId }}</strong></p>
     </div>
 
-    <button v-if="props.showSaveButton" @click="saveCalculation" :disabled="isLoading">
-      {{ isLoading ? 'Saving...' : 'Save' }}
-    </button>
+    <div v-if="props.showSaveButton && !responseId" class="actions">
+      <button class="save-btn" @click="saveCalculation" :disabled="isLoading">
+        {{ isLoading ? 'Saving…' : 'Save this calculation' }}
+      </button>
+    </div>
   </Card>
 </template>
 
 <style scoped>
-h2,
-h3 {
-  color: #1f2933;
+h2 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--c-text);
 }
 
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 0.25rem;
+}
+
+.back-btn {
+  padding: 0.4rem 0.9rem;
+  background: transparent;
+  color: var(--c-text-muted);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-family);
+  font-size: 0.83rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.back-btn:hover {
+  background: var(--c-warm-gray);
+  color: var(--c-text);
 }
 
 .message {
-  color: #243b53;
-  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--c-text-muted);
+  font-weight: 300;
+  margin-bottom: 1.25rem;
 }
 
 .summary-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
   gap: 0.75rem;
-  margin-top: 1rem;
+  margin: 1.25rem 0 1.75rem;
 }
 
-.summary-grid article {
-  background: #f8fafc;
-  border: 1px solid #d8dde3;
-  border-radius: 6px;
-  padding: 0.75rem;
+.tile {
+  background: var(--c-sage-light);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
 }
 
-.summary-grid h3 {
-  margin: 0;
-  font-size: 0.95rem;
+.tile--total {
+  background: var(--c-warm-gray);
 }
 
-.summary-grid p {
-  margin: 0.4rem 0 0;
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: #334e68;
+.tile-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--c-text-muted);
+}
+
+.tile-value {
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--c-text);
+  line-height: 1.2;
+}
+
+.tile-unit {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--c-text-muted);
 }
 
 .breakdown-title {
-  margin-top: 1.2rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--c-text);
+  margin-bottom: 0.75rem;
 }
 
 .table-wrapper {
   overflow-x: auto;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--c-border);
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 0.6rem;
 }
 
-th,
-td {
-  border-bottom: 1px solid #e4e7eb;
-  padding: 0.55rem;
+thead tr {
+  background: var(--c-warm-gray);
+}
+
+th {
+  padding: 0.6rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--c-text-muted);
   text-align: left;
-  color: #334e68;
 }
 
-thead th {
-  background: #f0f4f8;
-  color: #334e68;
+td {
+  padding: 0.6rem 1rem;
+  font-size: 0.875rem;
+  color: var(--c-text);
+  border-top: 1px solid var(--c-border);
+}
+
+tbody tr:hover td {
+  background: var(--c-sage-light);
+}
+
+.right {
+  text-align: right;
+}
+
+.amount {
+  font-weight: 600;
+  color: var(--c-sage-dark);
+}
+
+/* Actions */
+.actions {
+  margin-top: 1.5rem;
+}
+
+.save-btn {
+  padding: 0.6rem 1.4rem;
+  background: var(--c-sage);
+  color: var(--c-white);
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-family);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: var(--shadow-btn);
+  transition: background 0.2s;
+}
+
+.save-btn:hover:not(:disabled) {
+  background: var(--c-sage-dark);
+}
+
+.save-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Feedback */
+.error {
+  margin-top: 1rem;
+  background: var(--c-error-light);
+  border: 1px solid #ECC8C8;
+  color: var(--c-error);
+  font-size: 0.83rem;
+  padding: 0.5rem 0.85rem;
+  border-radius: var(--radius-sm);
+}
+
+.save-success {
+  margin-top: 1.25rem;
+  background: var(--c-sage-light);
+  border: 1px solid #C0D9CA;
+  border-radius: var(--radius-md);
+  padding: 0.9rem 1.1rem;
+}
+
+.save-success-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--c-sage-dark);
+}
+
+.save-success-id {
+  font-size: 0.83rem;
+  color: var(--c-text-muted);
+  margin-top: 0.15rem;
+}
+
+.save-success-id strong {
+  font-family: monospace;
+  color: var(--c-text);
 }
 </style>

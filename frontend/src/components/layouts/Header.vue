@@ -5,18 +5,37 @@ import { RouterLink } from 'vue-router';
 <template>
   <header>
     <RouterLink to="/">
-      <h1>Parental Benefit Calculator</h1>
+      <header class="site-header">
+        <span class="icon">✦</span>
+        <span class="title"> Parental Benefit Calculator</span>
+      </header>
     </RouterLink>
   </header>
 </template>
 
 <style scoped>
-header {
-  padding-block: 1rem;
+.site-header {
+  padding: 1.75rem 0 1.25rem;
+  border-bottom: 1px solid var(--c-border);
+  text-align: center;
+  margin-bottom: 2rem;
 }
 
-header > a {
+.title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--c-text);
+  letter-spacing: 0.1em;
+}
+
+.icon {
+  font-size: 1.5rem;
+  color: var(--c-sage);
+  line-height: 1;
+  padding-right: 0.5rem;
+}
+
+a {
   text-decoration: none;
-  color: inherit;
 }
 </style>

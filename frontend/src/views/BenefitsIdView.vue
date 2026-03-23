@@ -41,11 +41,13 @@ main {
 }
 
 .status {
-  color: #334e68;
+  font-size: 0.9rem;
+  color: var(--c-text-muted);
 }
 
 .error {
-  color: #c81e1e;
-  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--c-error);
+  font-weight: 500;
 }
 </style>

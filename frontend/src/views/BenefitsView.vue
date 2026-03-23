@@ -31,6 +31,7 @@ main {
 }
 
 .empty-state {
-  color: #52606d;
+  font-size: 0.9rem;
+  color: var(--c-text-muted);
 }
 </style>

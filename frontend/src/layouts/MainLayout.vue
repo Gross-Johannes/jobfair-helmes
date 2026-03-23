@@ -12,9 +12,10 @@ import Header from '@/components/layouts/Header.vue';
 
 <style scoped>
 .container {
-  max-width: 920px;
+  max-width: 860px;
   min-height: 100vh;
   margin: 0 auto;
+  padding: 0 1.5rem 4rem;
   display: flex;
   flex-direction: column;
 }

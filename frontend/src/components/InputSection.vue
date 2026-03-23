@@ -45,12 +45,15 @@ async function getCalculationResult() {
 
 <template>
   <Card>
-    <h2>Input</h2>
+    <div class="card-head">
+      <span class="icon" aria-hidden="true">◇</span>
+      <h2>New calculation</h2>
+    </div>
 
     <form @submit.prevent="getCalculationResult">
       <div class="grid">
         <label>
-          Gross salary (EUR)
+          <span class="label-text">Gross salary (EUR)</span>
           <input
             v-model.number="formData.grossSalary"
             type="number"
@@ -61,7 +64,7 @@ async function getCalculationResult() {
         </label>
 
         <label>
-          Baby birth date
+          <span class="label-text">Baby's birth date</span>
           <input v-model="formData.babyBirthDate" type="date" />
         </label>
       </div>
@@ -69,20 +72,32 @@ async function getCalculationResult() {
       <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
 
       <div class="actions">
-        <input
-          type="submit"
-          id="calculateBtn"
-          :value="isLoading ? 'Calculating...' : 'Calculate'"
-          :disabled="isLoading"
-        />
+        <button type="submit" :disabled="isLoading">
+          {{ isLoading ? 'Calculating…' : 'Calculate benefits' }}
+        </button>
       </div>
     </form>
   </Card>
 </template>
 
 <style scoped>
+.card-head {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.icon {
+  font-size: 1rem;
+  color: var(--c-sage);
+  line-height: 1;
+}
+
 h2 {
-  color: #333;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--c-text);
 }
 
 .grid {
@@ -94,40 +109,73 @@ h2 {
 label {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  font-weight: 600;
-  color: black;
+  gap: 0.4rem;
 }
 
-input {
-  padding: 8px;
-  border: 1px solid #b7c0cb;
-  border-radius: 6px;
+.label-text {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--c-text-muted);
+}
+
+input[type='number'],
+input[type='date'] {
+  padding: 0.6rem 0.8rem;
+  background: var(--c-warm-gray);
+  border: 1.5px solid transparent;
+  border-radius: var(--radius-sm);
+  color: var(--c-text);
+  font-family: var(--font-family);
+  font-size: 0.9rem;
+  transition: border-color 0.2s, background 0.2s;
+  outline: none;
+}
+
+input[type='number']:focus,
+input[type='date']:focus {
+  background: var(--c-white);
+  border-color: var(--c-sage);
+}
+
+input[type='number']::placeholder {
+  color: var(--c-text-light);
 }
 
 .actions {
-  display: flex;
-  gap: 8px;
-  margin-top: 12px;
+  margin-top: 1.25rem;
 }
 
-#calculateBtn {
-  padding: 8px 12px;
-  border: 0;
-  border-radius: 6px;
-  background: #2d6cdf;
-  color: white;
+button[type='submit'] {
+  padding: 0.6rem 1.4rem;
+  background: var(--c-sage);
+  color: var(--c-white);
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-family);
+  font-size: 0.875rem;
+  font-weight: 500;
   cursor: pointer;
+  box-shadow: var(--shadow-btn);
+  transition: background 0.2s;
 }
 
-#calculateBtn:hover {
-  background: #1f56b6;
+button[type='submit']:hover:not(:disabled) {
+  background: var(--c-sage-dark);
+}
+
+button[type='submit']:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
 }
 
 .error {
-  margin-top: 10px;
-  color: #c81e1e;
-  font-size: 14px;
-  font-weight: 600;
+  margin-top: 0.9rem;
+  background: var(--c-error-light);
+  border: 1px solid #ECC8C8;
+  color: var(--c-error);
+  font-size: 0.83rem;
+  padding: 0.5rem 0.85rem;
+  border-radius: var(--radius-sm);
 }
 </style>

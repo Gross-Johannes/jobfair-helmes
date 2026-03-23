@@ -9,10 +9,15 @@ const errorMessage = ref('');
 
 async function resumeById() {
   const id = applicationId.value.trim();
+  const uuidRegex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
 
   if (!id) {
-    errorMessage.value = 'Please enter a valid ID';
+    errorMessage.value = 'Please enter an ID';
+    return;
+  }
 
+  if (!uuidRegex.test(id)) {
+    errorMessage.value = 'Invalid ID format';
     return;
   }
 

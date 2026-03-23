@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import InputSection from '@/components/InputSection.vue';
+import ResumeSection from '@/components/ResumeSection.vue';
 </script>
 
 <template>
   <main>
-    <InputSection />    
+    <InputSection />
+    <ResumeSection />
   </main>
 </template>
 

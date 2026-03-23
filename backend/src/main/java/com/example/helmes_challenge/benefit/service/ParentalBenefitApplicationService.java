@@ -5,9 +5,13 @@ import com.example.helmes_challenge.benefit.ParentalBenefitRepository;
 import com.example.helmes_challenge.benefit.dto.CalculationRequest;
 import com.example.helmes_challenge.benefit.dto.CalculationResult;
 import com.example.helmes_challenge.benefit.dto.ParentalBenefitApplicationResponse;
+import com.example.helmes_challenge.common.exception.ApiException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +33,14 @@ public class ParentalBenefitApplicationService {
         ParentalBenefit saved = parentalBenefitRepository.save(parentalBenefit);
 
         return toResponse(saved);
+    }
+
+    @Transactional(readOnly = true)
+    public ParentalBenefitApplicationResponse getById(UUID id) {
+        ParentalBenefit parentalBenefit = parentalBenefitRepository.findById(id)
+                .orElseThrow(() -> new ApiException("Parental benefit not found", HttpStatus.NOT_FOUND));
+
+        return toResponse(parentalBenefit);
     }
 
     private ParentalBenefitApplicationResponse toResponse(ParentalBenefit parentalBenefit) {

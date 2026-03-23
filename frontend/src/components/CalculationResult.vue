@@ -54,7 +54,7 @@ async function saveCalculation() {
   <Card>
     <div class="header">
       <h2>Calculation result</h2>
-      <button class="back-btn" @click="router.push('/')">Back</button>
+      <button class="back-btn" @click="router.push('/')">← Back</button>
     </div>
 
     <p class="message">{{ result.message }}</p>
@@ -232,10 +232,6 @@ td {
 
 tbody tr:hover td {
   background: var(--c-sage-light);
-}
-
-.center {
-  text-align: center;
 }
 
 .right {

@@ -1,0 +1,88 @@
+{
+  "info": {
+    "_postman_id": "11972a42-bc76-4605-84be-fd644436cebc",
+    "name": "jobfair-helmes",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "26793677"
+  },
+  "item": [
+    {
+      "name": "calculate",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"grossSalary\": 5000,\r\n    \"babyBirthDate\": \"2002-02-18\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/parental-benefits/calculations",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "parental-benefits",
+            "calculations"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "create",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"grossSalary\": 2500,\r\n    \"babyBirthDate\": \"2002-02-18\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/parental-benefits",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "parental-benefits"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "get by id",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/parental-benefits/7edf7753-22a1-41ee-b2ca-589ea0b0e3f7",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "parental-benefits",
+            "7edf7753-22a1-41ee-b2ca-589ea0b0e3f7"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080/api/v1",
+      "type": "default"
+    }
+  ]
+}

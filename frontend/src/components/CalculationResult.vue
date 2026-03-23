@@ -8,6 +8,14 @@ import type { CalculationResultProps } from '@/types/types';
 const router = useRouter();
 const { createBenefit, isLoading, errorMessage } = useCreateBenefit();
 const responseId = ref<string | null>(null);
+const copied = ref(false);
+
+async function copyId() {
+  if (!responseId.value) return;
+  await navigator.clipboard.writeText(responseId.value);
+  copied.value = true;
+  setTimeout(() => (copied.value = false), 2000);
+}
 
 const props = withDefaults(
   defineProps<{
@@ -74,14 +82,14 @@ async function saveCalculation() {
           <tr>
             <th>Month</th>
             <th>Payable days</th>
-            <th>Payment amount (EUR)</th>
+            <th class="right">Amount (EUR)</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="item in result.data.breakdown" :key="`${item.year}-${item.month}`">
             <td>{{ formatMonthYear(item.year, item.month) }}</td>
             <td>{{ item.payableDays }}</td>
-            <td>{{ item.paymentAmount.toFixed(2) }}</td>
+            <td class="right amount">{{ item.paymentAmount.toFixed(2) }}</td>
           </tr>
         </tbody>
       </table>
@@ -90,7 +98,12 @@ async function saveCalculation() {
     <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
     <div v-if="responseId" class="save-success">
       <p class="save-success-title">Saved successfully</p>
-      <p class="save-success-id">Your ID: <strong>{{ responseId }}</strong></p>
+      <div class="save-success-id-row">
+        <code class="save-id">{{ responseId }}</code>
+        <button class="copy-btn" @click="copyId" :class="{ copied }">
+          {{ copied ? 'Copied!' : 'Copy ID' }}
+        </button>
+      </div>
     </div>
 
     <div v-if="props.showSaveButton && !responseId" class="actions">
@@ -139,6 +152,7 @@ h2 {
   margin-bottom: 1.25rem;
 }
 
+/* Summary section */
 .summary-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
@@ -185,6 +199,7 @@ h2 {
   margin-bottom: 0.75rem;
 }
 
+/* Tables */
 .table-wrapper {
   overflow-x: auto;
   border-radius: var(--radius-md);
@@ -217,6 +232,10 @@ td {
 
 tbody tr:hover td {
   background: var(--c-sage-light);
+}
+
+.center {
+  text-align: center;
 }
 
 .right {
@@ -280,16 +299,49 @@ tbody tr:hover td {
   font-size: 0.875rem;
   font-weight: 600;
   color: var(--c-sage-dark);
+  margin-bottom: 0.5rem;
 }
 
-.save-success-id {
-  font-size: 0.83rem;
-  color: var(--c-text-muted);
-  margin-top: 0.15rem;
+.save-success-id-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
 }
 
-.save-success-id strong {
+.save-id {
   font-family: monospace;
+  font-size: 0.82rem;
   color: var(--c-text);
+  background: var(--c-white);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  padding: 0.3rem 0.6rem;
+  word-break: break-all;
+}
+
+.copy-btn {
+  padding: 0.3rem 0.8rem;
+  background: transparent;
+  color: var(--c-sage-dark);
+  border: 1px solid var(--c-sage);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-family);
+  font-size: 0.78rem;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s, color 0.2s;
+}
+
+.copy-btn:hover {
+  background: var(--c-sage);
+  color: var(--c-white);
+}
+
+.copy-btn.copied {
+  background: var(--c-sage);
+  color: var(--c-white);
+  border-color: var(--c-sage);
 }
 </style>

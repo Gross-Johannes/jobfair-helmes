@@ -1,10 +1,19 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import InputSection from '@/components/InputSection.vue';
+</script>
 
 <template>
   <main>
-    <h1>Welcome to Your App</h1>
-    <p>This is the home page.</p>
+    <InputSection />    
   </main>
 </template>
 
-<style scoped></style>
+<style scoped>
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2rem;
+}
+</style>

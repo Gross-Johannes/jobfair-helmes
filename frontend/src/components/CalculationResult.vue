@@ -2,9 +2,12 @@
 import { computed, ref } from 'vue';
 import Card from '@/components/Card.vue';
 import { useRouter } from 'vue-router';
+import { useCreateBenefit } from '@/composables/useBenefitsApi';
 import type { CalculationResultProps } from '@/types/types';
 
 const router = useRouter();
+const { createBenefit, isLoading, errorMessage } = useCreateBenefit();
+const responseId = ref<string | null>(null);
 
 const props = withDefaults(
   defineProps<{
@@ -25,6 +28,17 @@ function formatMonthYear(year: number, month: number): string {
     year: 'numeric',
     month: 'long',
   });
+}
+
+async function saveCalculation() {
+  const data = await createBenefit({
+    grossSalary: props.result.grossSalary,
+    babyBirthDate: props.result.babyBirthDate,
+  });
+
+  if (data) {
+    responseId.value = data.data.id;
+  }
 }
 </script>
 
@@ -74,6 +88,18 @@ function formatMonthYear(year: number, month: number): string {
         </tbody>
       </table>
     </div>
+
+    <p>{{ errorMessage }}</p>
+    <div v-if="responseId" class="message">
+      <p>Benefit saved successfully!</p>
+      <p>
+        Your benefit ID: <strong>{{ responseId }}</strong>
+      </p>
+    </div>
+
+    <button v-if="props.showSaveButton" @click="saveCalculation" :disabled="isLoading">
+      {{ isLoading ? 'Saving...' : 'Save' }}
+    </button>
   </Card>
 </template>
 

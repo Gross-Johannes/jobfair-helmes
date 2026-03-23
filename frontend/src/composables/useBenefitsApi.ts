@@ -85,3 +85,43 @@ export function useBenefitById() {
     fetchBenefitById,
   };
 }
+
+export function useCreateBenefit() {
+  const isLoading = ref(false);
+  const errorMessage = ref('');
+
+  async function createBenefit(input: RequestInput): Promise<BenefitResponse | null> {
+    isLoading.value = true;
+    errorMessage.value = '';
+
+    try {
+      const response = await fetch('/api/v1/parental-benefits', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(input),
+      });
+
+      const data = (await response.json()) as BenefitResponse;
+
+      if (!response.ok) {
+        errorMessage.value = data.message || 'Failed to save benefits.';
+        return null;
+      }
+      return data;
+    } catch (error) {
+      console.error('Error occurred while creating benefit:', error);
+      errorMessage.value = 'Something went wrong while saving the benefits.';
+      return null;
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  return {
+    isLoading,
+    errorMessage,
+    createBenefit,
+  };
+}

@@ -2,6 +2,7 @@ package com.example.helmes_challenge.benefit;
 
 import com.example.helmes_challenge.benefit.dto.CalculationRequest;
 import com.example.helmes_challenge.benefit.dto.CalculationResult;
+import com.example.helmes_challenge.benefit.dto.ParentalBenefitApplicationResponse;
 import com.example.helmes_challenge.benefit.service.ParentalBenefitApplicationService;
 import com.example.helmes_challenge.common.response.ApiResponse;
 import jakarta.validation.Valid;
@@ -26,6 +27,21 @@ public class ParentalBenefitController {
                 .status(HttpStatus.OK)
                 .body(ApiResponse.<CalculationResult>builder()
                         .message("Calculation successful")
+                        .data(result)
+                        .errors(null)
+                        .build());
+    }
+
+    @PostMapping
+    public ResponseEntity<ApiResponse<ParentalBenefitApplicationResponse>> create(
+            @RequestBody @Valid CalculationRequest request) {
+
+        ParentalBenefitApplicationResponse result = applicationService.create(request);
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(ApiResponse.<ParentalBenefitApplicationResponse>builder()
+                        .message("Parental benefit created successfully")
                         .data(result)
                         .errors(null)
                         .build());

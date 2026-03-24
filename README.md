@@ -36,9 +36,9 @@ Payments use a daily rate (salary ÷ 30), with the first month calculated from t
 ---
 
 ### Main view
-<img src="docs/screenshots/mainview_calculator.png" alt="Main view" width="600"></img>
+<img src="docs/screenshots/mainview_calculator.png" alt="Main view"></img>
 ### Result view
-<img src="docs/screenshots/resultview_calculator.png" alt="Result view" width="600"></img>
+<img src="docs/screenshots/resultview_calculator.png" alt="Result view"></img>
 
 --- 
 

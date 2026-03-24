@@ -17,7 +17,10 @@ public class GlobalResponseHandler implements ResponseBodyAdvice<Object> {
     public boolean supports(
             @NonNull MethodParameter returnType,
             @NonNull Class<? extends HttpMessageConverter<?>> converterType) {
-        return true;
+        Class<?> containingClass = returnType.getContainingClass();
+        String packageName = containingClass.getPackageName();
+
+        return !packageName.startsWith("org.springdoc");
     }
 
     @Override
@@ -28,6 +31,14 @@ public class GlobalResponseHandler implements ResponseBodyAdvice<Object> {
             @NonNull Class<? extends HttpMessageConverter<?>> selectedConverterType,
             @NonNull ServerHttpRequest request,
             @NonNull ServerHttpResponse response) {
+
+        String path = request.getURI().getPath();
+
+        if (path.startsWith("/v3/api-docs")
+                || path.startsWith("/swagger-ui")
+                || path.equals("/swagger-ui.html")) {
+            return body;
+        }
 
         HttpStatus status = HttpStatus.valueOf(
                 ((ServletServerHttpResponse) response).getServletResponse().getStatus()

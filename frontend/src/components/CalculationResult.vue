@@ -57,8 +57,6 @@ async function saveCalculation() {
       <button class="back-btn" @click="router.push('/')">← Back</button>
     </div>
 
-    <p class="message">{{ result.message }}</p>
-
     <div class="summary-grid">
       <div class="tile">
         <span class="tile-label">Monthly eligible salary</span>
@@ -138,18 +136,12 @@ h2 {
   font-size: 0.83rem;
   cursor: pointer;
   transition: background 0.2s, color 0.2s;
+  margin-bottom: 2rem;
 }
 
 .back-btn:hover {
   background: var(--c-warm-gray);
   color: var(--c-text);
-}
-
-.message {
-  font-size: 0.85rem;
-  color: var(--c-text-muted);
-  font-weight: 300;
-  margin-bottom: 1.25rem;
 }
 
 /* Summary section */
@@ -169,10 +161,6 @@ h2 {
   gap: 0.3rem;
 }
 
-.tile--total {
-  background: var(--c-warm-gray);
-}
-
 .tile-label {
   font-size: 0.75rem;
   font-weight: 500;
@@ -184,6 +172,19 @@ h2 {
   font-weight: 600;
   color: var(--c-text);
   line-height: 1.2;
+}
+
+.tile--total {
+  background: var(--c-amber-light);
+  border: 1.5px solid #F0CDAA;
+}
+
+.tile--total .tile-label {
+  color: #A06030;
+}
+
+.tile--total .tile-value {
+  color: var(--c-amber);
 }
 
 .tile-unit {
@@ -203,7 +204,8 @@ h2 {
 .table-wrapper {
   overflow-x: auto;
   border-radius: var(--radius-md);
-  border: 1px solid var(--c-border);
+  border-top: 2px solid var(--c-border);
+  margin-bottom: 2rem;
 }
 
 table {
@@ -227,11 +229,15 @@ td {
   padding: 0.6rem 1rem;
   font-size: 0.875rem;
   color: var(--c-text);
-  border-top: 1px solid var(--c-border);
+}
+
+tbody tr:nth-child(even) td {
+  background-color: rgba(240, 237, 232, 0.4);
 }
 
 tbody tr:hover td {
   background: var(--c-sage-light);
+  transition: background 0.15s;
 }
 
 .right {
@@ -260,6 +266,7 @@ tbody tr:hover td {
   cursor: pointer;
   box-shadow: var(--shadow-btn);
   transition: background 0.2s;
+  margin-top: 0.5rem;
 }
 
 .save-btn:hover:not(:disabled) {
@@ -310,7 +317,7 @@ tbody tr:hover td {
   font-size: 0.82rem;
   color: var(--c-text);
   background: var(--c-white);
-  border: 1px solid var(--c-border);
+  border: 1px solid #C0D9CA;
   border-radius: var(--radius-sm);
   padding: 0.3rem 0.6rem;
   word-break: break-all;

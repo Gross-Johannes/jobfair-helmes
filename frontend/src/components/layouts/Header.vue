@@ -16,7 +16,7 @@ import { RouterLink } from 'vue-router';
 <style scoped>
 .site-header {
   padding: 1.75rem 0 1.25rem;
-  border-bottom: 1px solid var(--c-border);
+  border-bottom: 3px dotted var(--c-border);
   text-align: center;
   margin-bottom: 2rem;
 }
